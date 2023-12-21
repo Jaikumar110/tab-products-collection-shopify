@@ -1,0 +1,843 @@
+Step 1: Add the Section to Your Theme
+Go to your Shopify admin.
+Navigate to "Online Store" > "Themes."
+Find the theme you want to edit and click "Actions" > "Edit Code."
+Inside your theme files, create a new section called collection-tab.liquid.
+Step 2: Add the HTML Structure
+Replace the content of the collection-tab.liquid file with the following HTML structure:
+
+<section class="collection-tab">
+  <div class="page-width">
+    <h2 class="center main-heading">{{ section.settings.arrival_heading }}</h2>
+
+    <!-- SELECT -->
+    <div class="tab-dropdown-container">
+      <select id="tabDropdown" class="form-control">
+        <option value="home-one" select>{{ section.settings.tab_one }}</option>
+        <option value="profile-one">{{ section.settings.tab_two }}</option>
+        <option value="contact-one">{{ section.settings.tab_three }}</option>
+      </select>
+    </div>
+    <!--  -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a
+          class="nav-link active"
+          id="home-one-tab"
+          data-toggle="tab"
+          href="#home-one"
+          role="tab"
+          aria-controls="home-one"
+          aria-selected="true"
+          >{{ section.settings.tab_one }}</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          id="profile-one-tab"
+          data-toggle="tab"
+          href="#profile-one"
+          role="tab"
+          aria-controls="profile-one"
+          aria-selected="false"
+          >{{ section.settings.tab_two }}</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          id="contact-one-tab"
+          data-toggle="tab"
+          href="#contact-one"
+          role="tab"
+          aria-controls="contact-one"
+          aria-selected="false"
+          >{{ section.settings.tab_three }}</a
+        >
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div
+        class="tab-pane fade active show"
+        id="home-one"
+        role="tabpanel"
+        aria-labelledby="home-one-tab"
+      >
+        <div class="product-class-two">
+          {% for product in collections[section.settings.collection_one].products %}
+            <div class="product_content">
+              <img src="{{ product.featured_image | img_url:'master' }}">
+              <p class="prdt-vendor">{{ product.vendor }}</p>
+              <p class="prdt-title">{{ product.title | escape }}</p>
+              <div class="product-rating">
+                <div class="star-icon">
+                  <h4>4 reviews</h4>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star"></span>
+                </div>
+                <div class="product-price">
+                  <p>Price: {{ product.price | money }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- second_collection -->
+
+      <div
+        class="tab-pane fade"
+        id="profile-one"
+        role="tabpanel"
+        aria-labelledby="profile-one-tab"
+      >
+        <div class="product-class-two">
+          {% for product in collections[section.settings.collection_two].products %}
+            <div class="product_content">
+              <img src="{{ product.featured_image | img_url:'master' }}">
+              <p class="prdt-vendor">{{ product.vendor }}</p>
+              <p class="prdt-title">{{ product.title | escape }}</p>
+              <div class="product-rating">
+                <div class="star-icon">
+                  <h4>4 reviews</h4>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star"></span>
+                </div>
+                <div class="product-price">
+                  <p>Price: {{ product.price | money }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- third_collection -->
+
+      <div
+        class="tab-pane fade"
+        id="contact-one"
+        role="tabpanel"
+        aria-labelledby="contact-one-tab"
+      >
+        <div class="product-class-two">
+          {% for product in collections[section.settings.collection_three].products %}
+            <div class="product_content">
+              <img src="{{ product.featured_image | img_url:'master' }}">
+              <p class="prdt-vendor">{{ product.vendor }}</p>
+              <p class="prdt-title">{{ product.title | escape }}</p>
+              <div class="product-rating">
+                <div class="star-icon">
+                  <h4>4 reviews</h4>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star"></span>
+                </div>
+                <div class="product-price">
+                  <p>Price: {{ product.price | money }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+Step 3: Add JavaScript
+Add the JavaScript code to enable tab switching and slider functionality:
+
+<script>
+  $(document).ready(function() {
+      $('.product-class-two').slick({
+          infinite: true,
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          arrows: true,
+          prevArrow: "<button type='button' class='slick-prev pull-left'><i class='fa fa-angle-left' aria-hidden='true'></i></button>",
+          nextArrow: "<button type='button' class='slick-next pull-right'><i class='fa fa-angle-right' aria-hidden='true'></i></button>",
+          responsive: [{
+                  breakpoint: 1024,
+                  settings: {
+                      slidesToShow: 3,
+                      slidesToScroll: 3,
+                      infinite: true,
+                      dots: false
+                  }
+              },
+              {
+                  breakpoint: 780,
+                  settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1,
+                      arrows: false,
+                       dots: true
+                  }
+              },
+              {
+                  breakpoint: 480,
+                  settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1,
+                      arrows: false,
+                       dots: true
+                  }
+              }
+          ]
+      });
+  });
+
+  $('#tabDropdown').on('change', function() {
+      var selectedTabId = $(this).val();
+      $('a[data-toggle="tab"][href="#' + selectedTabId + '"]').tab('show');
+  });
+
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function() {
+      $('.product-class-two').slick('setPosition');
+  });
+
+  // Update the UI initially based on window width
+  updateUIForWindowSize();
+
+  $(window).on('resize', function() {
+      updateUIForWindowSize();
+  });
+
+  function updateUIForWindowSize() {
+      if ($(window).width() <= 568) {
+          // Hide tabs, show dropdown
+          $('.nav.nav-tabs').hide();
+          $('.tab-dropdown-container').show();
+      } else {
+          // Show tabs, hide dropdown
+          $('.nav.nav-tabs').show();
+          $('.tab-dropdown-container').hide();
+      }
+  }
+</script>
+
+Step 4: Add the Schema
+
+Add the schema code to define the customizable settings for the section:
+{% schema %}
+{
+  "name": "Collection Tab",
+  "settings": [
+    {
+      "type": "text",
+      "id": "main_heading",
+      "label": "Heading"
+    },
+    {
+      "type":"header",
+      "content":"TAB ONE"
+    },
+    {
+      "type": "text",
+      "id": "tab_one",
+      "label": "Tab One Heading"
+    },
+    {
+      "label": "Collection One",
+      "id": "collection_one",
+      "type": "collection"
+    },
+        {
+      "type":"header",
+      "content":"TAB TWO"
+    },
+    {
+      "type": "text",
+      "id": "tab_two",
+      "label": "Tab Two Heading"
+    },
+    {
+      "label": "Collection Two",
+      "id": "collection_two",
+      "type": "collection"
+    },
+        {
+      "type":"header",
+      "content":"TAB THREE"
+    },
+    {
+      "type": "text",
+      "id": "tab_three",
+      "label": "Tab Three Heading"
+    },
+    {
+      "label": "Collection Three",
+      "id": "collection_three",
+      "type": "collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Tab"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+
+
+Step 5: Add the CSS
+Add the css code to look beautiful
+<style>
+/* Styles for the entire collection-tab section */
+.collection-tab {
+  background-color: #f8f8f8;
+  padding: 50px 0;
+}
+
+/* Center align the main-heading */
+.collection-tab .main-heading {
+  text-align: center;
+}
+
+/* Styles for the tab dropdown container */
+.collection-tab .tab-dropdown-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Style the select dropdown */
+.collection-tab #tabDropdown {
+  padding: 0px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+}
+
+/* Center align the tab navigation */
+.collection-tab .nav.nav-tabs {
+  justify-content: center;
+  border: none;
+  margin-top: 20px;
+}
+
+/* Styles for tab links */
+.collection-tab .nav.nav-tabs .nav-link {
+  color: #495057;
+  font-size: 18px;
+  font-weight: 500;
+  border: none;
+  background-color: transparent;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+/* Active tab link styles */
+.collection-tab .nav.nav-tabs .nav-link.active {
+  color: #27c3c2;
+  font-weight: 700;
+  border-color: #fff;
+}
+
+/* Styles for the tab content */
+.collection-tab .tab-content {
+  padding-top: 20px;
+}
+
+/* Styles for the product content */
+.collection-tab .product_content {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e1e1e1;
+  border-radius: 5px;
+  margin: 10px;
+  background-color: #fff;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+  padding: 10px;
+  min-height: 385px;
+}
+
+/* Product content hover effect */
+.collection-tab .product_content:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for product images */
+.collection-tab .product_content img {
+  width: 100%;
+  height: auto;
+}
+
+/* Styles for the product rating and price */
+.collection-tab .product-rating {
+  padding: 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.collection-tab .product-price p {
+  margin: 0;
+}
+
+/* Style the slick arrows */
+.collection-tab .slick-prev,
+.collection-tab .slick-next {
+  font-size: 40px;
+  background-color: #27c3c2;
+  border-radius: 25px;
+  color: #fff;
+  height: 50px;
+  width: 50px;
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.collection-tab .slick-prev:hover,
+.collection-tab .slick-next:hover {
+  color: black;
+}
+
+.collection-tab .slick-prev {
+  left: -45px;
+}
+
+.collection-tab .slick-next {
+  right: -45px;
+}
+
+</style>
+
+Step 6: Add Stylesheets and Scripts to the Head Section
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+Here is the Full code:
+<style>
+/* Styles for the entire collection-tab section */
+.collection-tab {
+  background-color: #f8f8f8;
+  padding: 50px 0;
+}
+
+/* Center align the main-heading */
+.collection-tab .main-heading {
+  text-align: center;
+}
+
+/* Styles for the tab dropdown container */
+.collection-tab .tab-dropdown-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Style the select dropdown */
+.collection-tab #tabDropdown {
+  padding: 0px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+}
+
+/* Center align the tab navigation */
+.collection-tab .nav.nav-tabs {
+  justify-content: center;
+  border: none;
+  margin-top: 20px;
+}
+
+/* Styles for tab links */
+.collection-tab .nav.nav-tabs .nav-link {
+  color: #495057;
+  font-size: 18px;
+  font-weight: 500;
+  border: none;
+  background-color: transparent;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+/* Active tab link styles */
+.collection-tab .nav.nav-tabs .nav-link.active {
+  color: #27c3c2;
+  font-weight: 700;
+  border-color: #fff;
+}
+
+/* Styles for the tab content */
+.collection-tab .tab-content {
+  padding-top: 20px;
+}
+
+/* Styles for the product content */
+.collection-tab .product_content {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e1e1e1;
+  border-radius: 5px;
+  margin: 10px;
+  background-color: #fff;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+  padding: 10px;
+  min-height: 385px;
+}
+
+/* Product content hover effect */
+.collection-tab .product_content:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for product images */
+.collection-tab .product_content img {
+  width: 100%;
+  height: auto;
+}
+
+/* Styles for the product rating and price */
+.collection-tab .product-rating {
+  padding: 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.collection-tab .product-price p {
+  margin: 0;
+}
+
+/* Style the slick arrows */
+.collection-tab .slick-prev,
+.collection-tab .slick-next {
+  font-size: 40px;
+  background-color: #27c3c2;
+  border-radius: 25px;
+  color: #fff;
+  height: 50px;
+  width: 50px;
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.collection-tab .slick-prev:hover,
+.collection-tab .slick-next:hover {
+  color: black;
+}
+
+.collection-tab .slick-prev {
+  left: -45px;
+}
+
+.collection-tab .slick-next {
+  right: -45px;
+}
+
+</style>
+
+<section class="collection-tab">
+  <div class="page-width">
+    <h2 class="center main-heading">{{ section.settings.arrival_heading }}</h2>
+
+    <!-- SELECT -->
+    <div class="tab-dropdown-container">
+      <select id="tabDropdown" class="form-control">
+        <option value="home-one" select>{{ section.settings.tab_one }}</option>
+        <option value="profile-one">{{ section.settings.tab_two }}</option>
+        <option value="contact-one">{{ section.settings.tab_three }}</option>
+      </select>
+    </div>
+    <!--  -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a
+          class="nav-link active"
+          id="home-one-tab"
+          data-toggle="tab"
+          href="#home-one"
+          role="tab"
+          aria-controls="home-one"
+          aria-selected="true"
+          >{{ section.settings.tab_one }}</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          id="profile-one-tab"
+          data-toggle="tab"
+          href="#profile-one"
+          role="tab"
+          aria-controls="profile-one"
+          aria-selected="false"
+          >{{ section.settings.tab_two }}</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          id="contact-one-tab"
+          data-toggle="tab"
+          href="#contact-one"
+          role="tab"
+          aria-controls="contact-one"
+          aria-selected="false"
+          >{{ section.settings.tab_three }}</a
+        >
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div
+        class="tab-pane fade active show"
+        id="home-one"
+        role="tabpanel"
+        aria-labelledby="home-one-tab"
+      >
+        <div class="product-class-two">
+          {% for product in collections[section.settings.collection_one].products %}
+            <div class="product_content">
+              <img src="{{ product.featured_image | img_url:'master' }}">
+              <p class="prdt-vendor">{{ product.vendor }}</p>
+              <p class="prdt-title">{{ product.title | escape }}</p>
+              <div class="product-rating">
+                <div class="star-icon">
+                  <h4>4 reviews</h4>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star"></span>
+                </div>
+                <div class="product-price">
+                  <p>Price: {{ product.price | money }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- second_collection -->
+
+      <div
+        class="tab-pane fade"
+        id="profile-one"
+        role="tabpanel"
+        aria-labelledby="profile-one-tab"
+      >
+        <div class="product-class-two">
+          {% for product in collections[section.settings.collection_two].products %}
+            <div class="product_content">
+              <img src="{{ product.featured_image | img_url:'master' }}">
+              <p class="prdt-vendor">{{ product.vendor }}</p>
+              <p class="prdt-title">{{ product.title | escape }}</p>
+              <div class="product-rating">
+                <div class="star-icon">
+                  <h4>4 reviews</h4>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star"></span>
+                </div>
+                <div class="product-price">
+                  <p>Price: {{ product.price | money }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- third_collection -->
+
+      <div
+        class="tab-pane fade"
+        id="contact-one"
+        role="tabpanel"
+        aria-labelledby="contact-one-tab"
+      >
+        <div class="product-class-two">
+          {% for product in collections[section.settings.collection_three].products %}
+            <div class="product_content">
+              <img src="{{ product.featured_image | img_url:'master' }}">
+              <p class="prdt-vendor">{{ product.vendor }}</p>
+              <p class="prdt-title">{{ product.title | escape }}</p>
+              <div class="product-rating">
+                <div class="star-icon">
+                  <h4>4 reviews</h4>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star"></span>
+                </div>
+                <div class="product-price">
+                  <p>Price: {{ product.price | money }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  $(document).ready(function() {
+      $('.product-class-two').slick({
+          infinite: true,
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          arrows: true,
+          prevArrow: "<button type='button' class='slick-prev pull-left'><i class='fa fa-angle-left' aria-hidden='true'></i></button>",
+          nextArrow: "<button type='button' class='slick-next pull-right'><i class='fa fa-angle-right' aria-hidden='true'></i></button>",
+          responsive: [{
+                  breakpoint: 1024,
+                  settings: {
+                      slidesToShow: 3,
+                      slidesToScroll: 3,
+                      infinite: true,
+                      dots: false
+                  }
+              },
+              {
+                  breakpoint: 780,
+                  settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1,
+                      arrows: false,
+                       dots: true
+                  }
+              },
+              {
+                  breakpoint: 480,
+                  settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1,
+                      arrows: false,
+                       dots: true
+                  }
+              }
+          ]
+      });
+  });
+
+  $('#tabDropdown').on('change', function() {
+      var selectedTabId = $(this).val();
+      $('a[data-toggle="tab"][href="#' + selectedTabId + '"]').tab('show');
+  });
+
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function() {
+      $('.product-class-two').slick('setPosition');
+  });
+
+  // Update the UI initially based on window width
+  updateUIForWindowSize();
+
+  $(window).on('resize', function() {
+      updateUIForWindowSize();
+  });
+
+  function updateUIForWindowSize() {
+      if ($(window).width() <= 568) {
+          // Hide tabs, show dropdown
+          $('.nav.nav-tabs').hide();
+          $('.tab-dropdown-container').show();
+      } else {
+          // Show tabs, hide dropdown
+          $('.nav.nav-tabs').show();
+          $('.tab-dropdown-container').hide();
+      }
+  }
+</script>
+{% schema %}
+{
+  "name": "Collection Tab",
+  "settings": [
+    {
+      "type": "text",
+      "id": "main_heading",
+      "label": "Heading"
+    },
+    {
+      "type":"header",
+      "content":"TAB ONE"
+    },
+    {
+      "type": "text",
+      "id": "tab_one",
+      "label": "Tab One Heading"
+    },
+    {
+      "label": "Collection One",
+      "id": "collection_one",
+      "type": "collection"
+    },
+        {
+      "type":"header",
+      "content":"TAB TWO"
+    },
+    {
+      "type": "text",
+      "id": "tab_two",
+      "label": "Tab Two Heading"
+    },
+    {
+      "label": "Collection Two",
+      "id": "collection_two",
+      "type": "collection"
+    },
+        {
+      "type":"header",
+      "content":"TAB THREE"
+    },
+    {
+      "type": "text",
+      "id": "tab_three",
+      "label": "Tab Three Heading"
+    },
+    {
+      "label": "Collection Three",
+      "id": "collection_three",
+      "type": "collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Tab"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
